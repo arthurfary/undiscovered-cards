@@ -1,25 +1,43 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
 import { auth } from "../../firebase"
 
 const LoginForm = () => {
+  const [isSignIn, setIsSignIn] = useState(true)
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isSignIn)
+      signIn()
+    else
+      signUp()
+  };
+
+  const signIn = () => {
     signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
       const user = userCredential.user
       console.log(user)
     }).catch((error) => {
       console.log(error)
     })
-  };
+  }
+
+  const signUp = () => {
+    createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      const user = userCredential.user
+      console.log(user)
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
 
   return (
     <form onSubmit={handleSubmit}>
+      <h1>{isSignIn ? "Sign in" : "Sign up"}</h1>
       <div>
         <label>Email</label>
         <input
@@ -38,7 +56,8 @@ const LoginForm = () => {
           required
         />
       </div>
-      <button type="submit">Login</button>
+      <button type="submit">{isSignIn ? "Sign In" : "Sign Up"}</button>
+      <button onClick={() => { setIsSignIn(!isSignIn) }}>Switch to {isSignIn ? "Sign up" : "Sign in"}</button>
     </form>
   );
 };
