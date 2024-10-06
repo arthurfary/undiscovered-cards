@@ -1,13 +1,21 @@
 import { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
+import { auth } from "../../firebase"
 
 const LoginForm = () => {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(email, password);
-    
+    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      const user = userCredential.user
+      console.log(user)
+    }).catch((error) => {
+      console.log(error)
+    })
   };
 
   return (
