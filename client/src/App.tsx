@@ -6,6 +6,7 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import ProtectedRoute from "./components/protectedRoute/protectedRoute";
 import UserPage from "./pages/user/user";
 import { auth } from './firebase'
+import LoginPage from "./pages/login/loginPage";
 
 function App() {
   //TODO when login is made, should wait for token to be recieved before redirecting
@@ -26,6 +27,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route index path='/' element={<Home />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/user" element={
           <ProtectedRoute user={user}>
             <UserPage user={user} />

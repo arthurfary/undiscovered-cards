@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
 
 import { auth } from "../../firebase"
 
@@ -35,30 +35,37 @@ const LoginForm = () => {
     })
   }
 
+  const handleSignOut = () => {
+    signOut(auth).then(() => alert('Signed Out'))
+  }
+
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>{isSignIn ? "Sign in" : "Sign up"}</h1>
-      <div>
-        <label>Email</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Password</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </div>
-      <button type="submit">{isSignIn ? "Sign In" : "Sign Up"}</button>
-      <button onClick={() => { setIsSignIn(!isSignIn) }}>Switch to {isSignIn ? "Sign up" : "Sign in"}</button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit}>
+        <h1>{isSignIn ? "Sign in" : "Sign up"}</h1>
+        <div>
+          <label>Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit">{isSignIn ? "Sign In" : "Sign Up"}</button>
+        <button onClick={() => { setIsSignIn(!isSignIn) }}>Switch to {isSignIn ? "Sign up" : "Sign in"}</button>
+      </form>
+      <button onClick={() => { handleSignOut() }}>Sign Out</button>
+    </>
   );
 };
 
