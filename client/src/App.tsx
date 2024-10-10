@@ -8,24 +8,19 @@ import UserPage from "./pages/user/user";
 import { auth } from './firebase'
 
 function App() {
+  //TODO when login is made, should wait for token to be recieved before redirecting
   const [user, setUser] = useState<User | null>(null)
-  const [isFetching, setIsFetching] = useState(true)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user)
-        setIsFetching(false)
         return
       }
 
       setUser(null)
-      setIsFetching(false)
     })
     return () => unsubscribe()
   }, [])
-
-  if (isFetching)
-    return <h2>Fetching...</h2>
 
   return (
     <BrowserRouter>

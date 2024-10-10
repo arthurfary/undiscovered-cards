@@ -16,6 +16,8 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_MEASUREMENT_ID
 };
 
+if (!firebaseConfig.apiKey)
+  throw new Error("Missing firebase ApiKey (.env ?)")
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
